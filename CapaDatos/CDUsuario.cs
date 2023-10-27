@@ -14,15 +14,17 @@ namespace CapaDatos
     {
         //agregamos a capaDatos la referencia de capaModelos
         //listar todos los usuarios de la BD
-        public List<Usuario> listar()
+        public List<Usuario> listar()//listamos  la lista de usuarios
         {
             List<Usuario> lista = new List<Usuario> ();
             using (SqlConnection conexion = new SqlConnection(Conexion.cadena))
             {
                 try
                 {
-                    string query = "select IdUsuario,Documento,Nombre, Correo, Contrasenia, EstaActivo from Usuario";
-                    SqlCommand cmd = new SqlCommand (query, conexion);
+                    StringBuilder query = new StringBuilder();
+                    query.AppendLine("select u.IdUsuario, u.Documento,u.Nombre, u.Correo, u.Contrasenia, u.EstaActivo, r.IdRol, r.Descripcion from Usuario u");
+                    query.AppendLine("inner join UsuarioRol r on r.IdRol = u.IdRol");
+                    SqlCommand cmd = new SqlCommand (query.ToString(), conexion);
                     cmd.CommandType = CommandType.Text;
                     conexion.Open ();
                     using (SqlDataReader dr = cmd.ExecuteReader()) 
@@ -37,7 +39,8 @@ namespace CapaDatos
                                 NombreCompleto = dr["Nombre"].ToString(),
                                 Correo = dr["Correo"].ToString(),
                                 Contrasenia = dr["Contrasenia"].ToString(),
-                                EstaActivo = Convert.ToBoolean(dr["EstaActivo"].ToString())
+                                EstaActivo = Convert.ToBoolean(dr["EstaActivo"].ToString()),
+                                oRol = new UsuarioRol() { IdRol = Convert.ToInt32(dr["IdRol"]), Descripcion = dr["Descripcion"].ToString() }
                             });
                             
                         }
