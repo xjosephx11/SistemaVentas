@@ -65,15 +65,36 @@ namespace CapaPresentacion
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            //dgvData.Rows.Add(new object[] { "", txtId.Text, txtDocumento.Text, txtNombreCompleto.Text, txtCorreo.Text, txtContrasenia.Text,
-            //    ((OpcionCombo)cboRol.SelectedItem).Valor.ToString(),
-            //    ((OpcionCombo)cboRol.SelectedItem).Texto.ToString(),
-            //    ((OpcionCombo)cboEstado.SelectedItem).Valor.ToString(),
-            //    ((OpcionCombo)cboEstado.SelectedItem).Texto.ToString()
-            //});
+            string mensaje = string.Empty;
+            Usuario objusuario = new Usuario()
+            {
+                IdUsuario = Convert.ToInt32(txtId.Text),
+                Documento = txtDocumento.Text,
+                NombreCompleto = txtNombreCompleto.Text,
+                Correo = txtCorreo.Text,
+                Contrasenia = txtContrasenia.Text,
+                oRol = new UsuarioRol() { IdRol = Convert.ToInt32(((OpcionCombo) cboRol.SelectedItem).Valor)},
+                EstaActivo = Convert.ToInt32(((OpcionCombo)cboEstado.SelectedItem).Valor) == 1? true:false
+            };
 
-            //limpiar();
+            int usuariogenerado = new CNUsuario().Registrar(objusuario, out mensaje);
 
+            if (usuariogenerado != 0)
+            {
+                //registro en el datagridview
+                dgvData.Rows.Add(new object[] { "", usuariogenerado, txtDocumento.Text, txtNombreCompleto.Text, txtCorreo.Text, txtContrasenia.Text,
+                ((OpcionCombo)cboRol.SelectedItem).Valor.ToString(),
+                ((OpcionCombo)cboRol.SelectedItem).Texto.ToString(),
+                ((OpcionCombo)cboEstado.SelectedItem).Valor.ToString(),
+                ((OpcionCombo)cboEstado.SelectedItem).Texto.ToString()
+                });
+                limpiar();
+            }
+            else 
+            {
+                MessageBox.Show(mensaje);
+            }
+            
         }
         private void limpiar() 
         {
