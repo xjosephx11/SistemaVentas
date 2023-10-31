@@ -77,24 +77,54 @@ namespace CapaPresentacion
                 EstaActivo = Convert.ToInt32(((OpcionCombo)cboEstado.SelectedItem).Valor) == 1? true:false
             };
 
-            int usuariogenerado = new CNUsuario().Registrar(objusuario, out mensaje);
-
-            if (usuariogenerado != 0)
+            if (objusuario.IdUsuario == 0)
             {
-                //registro en el datagridview
-                dgvData.Rows.Add(new object[] { "", usuariogenerado, txtDocumento.Text, txtNombreCompleto.Text, txtCorreo.Text, txtContrasenia.Text,
-                ((OpcionCombo)cboRol.SelectedItem).Valor.ToString(),
-                ((OpcionCombo)cboRol.SelectedItem).Texto.ToString(),
-                ((OpcionCombo)cboEstado.SelectedItem).Valor.ToString(),
-                ((OpcionCombo)cboEstado.SelectedItem).Texto.ToString()
-                });
-                limpiar();
+                //guardamos usuario
+                int usuariogenerado = new CNUsuario().Registrar(objusuario, out mensaje);
+
+                if (usuariogenerado != 0)
+                {
+                    //registro en el datagridview
+                    dgvData.Rows.Add(new object[] { "", usuariogenerado, txtDocumento.Text, txtNombreCompleto.Text, txtCorreo.Text, txtContrasenia.Text,
+                    ((OpcionCombo)cboRol.SelectedItem).Valor.ToString(),
+                    ((OpcionCombo)cboRol.SelectedItem).Texto.ToString(),
+                    ((OpcionCombo)cboEstado.SelectedItem).Valor.ToString(),
+                    ((OpcionCombo)cboEstado.SelectedItem).Texto.ToString()
+                    });
+                   
+                    MessageBox.Show("Usuario registrado exitosamente!", "Exelente", MessageBoxButtons.OK);
+                    limpiar();
+                }
+                else
+                {
+                    MessageBox.Show(mensaje);
+                }
             }
             else 
             {
-                MessageBox.Show(mensaje);
+                //modificamos el usuario
+                bool resultado = new CNUsuario().Editar(objusuario, out mensaje);
+                if (resultado)
+                {
+                    DataGridViewRow row = dgvData.Rows[Convert.ToInt32(txtIndice.Text)];
+                    row.Cells["Id"].Value = txtId.Text;
+                    row.Cells["Documento"].Value = txtDocumento.Text;
+                    row.Cells["NombreCompleto"].Value = txtNombreCompleto.Text;
+                    row.Cells["Correo"].Value = txtCorreo.Text;
+                    row.Cells["Contrasenia"].Value = txtContrasenia.Text;
+                    row.Cells["IdRol"].Value = ((OpcionCombo)cboRol.SelectedItem).Valor.ToString();
+                    row.Cells["Rol"].Value = ((OpcionCombo)cboRol.SelectedItem).Texto.ToString();
+                    row.Cells["EstadoValor"].Value = ((OpcionCombo)cboEstado.SelectedItem).Valor.ToString();
+                    row.Cells["Estado"].Value = ((OpcionCombo)cboEstado.SelectedItem).Texto.ToString();
+
+                    MessageBox.Show("Usuario actualizado exitosamente!", "Exelente", MessageBoxButtons.OK);
+                    limpiar();
+                }
+                else 
+                {
+                    MessageBox.Show(mensaje);
+                }
             }
-            
         }
         private void limpiar() 
         {
@@ -107,6 +137,8 @@ namespace CapaPresentacion
             txtConfirmarContrasenia.Text = "";
             cboRol.SelectedIndex = 0;
             cboEstado.SelectedIndex = 0;
+
+            txtDocumento.Select();
         }
 
         //cuando seleccionamos (click) un usuario se muestra en todos los texbox de cada variable
@@ -125,7 +157,7 @@ namespace CapaPresentacion
                     txtContrasenia.Text = dgvData.Rows[indice].Cells["Contrasenia"].Value.ToString();
                     txtConfirmarContrasenia.Text = dgvData.Rows[indice].Cells["Contrasenia"].Value.ToString();
 
-                    foreach ( OpcionCombo oc in cboRol.Items)// para jalar la info del rol de usuario en el combobox crud usuarios
+                    foreach ( OpcionCombo oc in cboRol.Items)// para recorrer/jalar la info del rol de usuario en el combobox crud usuarios
                     {
                         if (Convert.ToInt32( oc.Valor) == Convert.ToInt32(dgvData.Rows[indice].Cells["IdRol"].Value))
                         {
@@ -147,6 +179,60 @@ namespace CapaPresentacion
                 }
             }
             
+        }
+
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+            if (Convert.ToInt32(txtId.Text) != 0)
+            {
+                if (MessageBox.Show("¿Desea eliminar el usuario?", "Mensaje",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    string mensaje = string.Empty;
+                    Usuario objusuario = new Usuario()
+                    {
+                        IdUsuario = Convert.ToInt32(txtId.Text)
+                    };
+                    bool respuesta = new CNUsuario().Eliminar(objusuario, out mensaje);
+                    if (respuesta)
+                    {
+                        dgvData.Rows.RemoveAt(Convert.ToInt32(txtIndice.Text));
+                        MessageBox.Show("Usuario eliminado exitosamente!", "Exelente", MessageBoxButtons.OK);
+
+                    }
+                    else 
+                    {
+                        MessageBox.Show(mensaje,"Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }
+                }
+
+            }
+        }
+
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {
+            string columnaFiltro = ((OpcionCombo)cboBusqueda.SelectedItem).Valor.ToString();
+            if (dgvData.Rows.Count > 0)
+            {
+                foreach (DataGridViewRow row in dgvData.Rows)
+                {
+                    //si esta columna contiene lo que estamos buscando por medio del texto
+                    if (row.Cells[columnaFiltro].Value.ToString().Trim().ToUpper().Contains(txtBusqueda.Text.Trim().ToUpper()))
+
+                        row.Visible = true;
+                    else
+                        row.Visible = false;
+                }
+            }
+        }
+
+        private void btnLimpiarBuscador_Click(object sender, EventArgs e)
+        {
+            txtBusqueda.Text = "";
+            foreach (DataGridViewRow row in dgvData.Rows) 
+            {
+                row.Visible = true;
+            }
         }
 
         //private void dgvData_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
