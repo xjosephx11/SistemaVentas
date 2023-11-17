@@ -48,7 +48,7 @@ namespace CapaPresentacion
 
                 item.EstaActivo == true ? 1 : 0,
                 item.EstaActivo == true ? "Activo" : "No Activo"
-            });
+                });
             }
         }
 
