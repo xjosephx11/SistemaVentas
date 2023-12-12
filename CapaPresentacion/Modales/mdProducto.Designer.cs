@@ -31,11 +31,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvData = new System.Windows.Forms.DataGridView();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.cboBusqueda = new System.Windows.Forms.ComboBox();
-            this.btnLimpiarBuscador = new FontAwesome.Sharp.IconButton();
-            this.txtBusqueda = new System.Windows.Forms.TextBox();
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Codigo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.NombreProducto = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -43,6 +38,11 @@
             this.Stock = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PrecioCompra = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PrecioVenta = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.cboBusqueda = new System.Windows.Forms.ComboBox();
+            this.btnLimpiarBuscador = new FontAwesome.Sharp.IconButton();
+            this.txtBusqueda = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.iconButton1 = new FontAwesome.Sharp.IconButton();
@@ -87,6 +87,54 @@
             this.dgvData.Size = new System.Drawing.Size(592, 346);
             this.dgvData.TabIndex = 85;
             this.dgvData.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvData_CellMouseDoubleClick);
+            // 
+            // Id
+            // 
+            this.Id.HeaderText = "Id";
+            this.Id.Name = "Id";
+            this.Id.ReadOnly = true;
+            this.Id.Visible = false;
+            // 
+            // Codigo
+            // 
+            this.Codigo.HeaderText = "Codigo";
+            this.Codigo.Name = "Codigo";
+            this.Codigo.ReadOnly = true;
+            this.Codigo.Width = 120;
+            // 
+            // NombreProducto
+            // 
+            this.NombreProducto.HeaderText = "Nombre";
+            this.NombreProducto.Name = "NombreProducto";
+            this.NombreProducto.ReadOnly = true;
+            this.NombreProducto.Width = 170;
+            // 
+            // Categoria
+            // 
+            this.Categoria.HeaderText = "Categoria";
+            this.Categoria.Name = "Categoria";
+            this.Categoria.ReadOnly = true;
+            // 
+            // Stock
+            // 
+            this.Stock.HeaderText = "Stock";
+            this.Stock.Name = "Stock";
+            this.Stock.ReadOnly = true;
+            this.Stock.Visible = false;
+            // 
+            // PrecioCompra
+            // 
+            this.PrecioCompra.HeaderText = "Precio Compra";
+            this.PrecioCompra.Name = "PrecioCompra";
+            this.PrecioCompra.ReadOnly = true;
+            this.PrecioCompra.Visible = false;
+            // 
+            // PrecioVenta
+            // 
+            this.PrecioVenta.HeaderText = "Precio Venta";
+            this.PrecioVenta.Name = "PrecioVenta";
+            this.PrecioVenta.ReadOnly = true;
+            this.PrecioVenta.Visible = false;
             // 
             // label10
             // 
@@ -142,54 +190,6 @@
             this.txtBusqueda.Name = "txtBusqueda";
             this.txtBusqueda.Size = new System.Drawing.Size(146, 20);
             this.txtBusqueda.TabIndex = 87;
-            // 
-            // Id
-            // 
-            this.Id.HeaderText = "Id";
-            this.Id.Name = "Id";
-            this.Id.ReadOnly = true;
-            this.Id.Visible = false;
-            // 
-            // Codigo
-            // 
-            this.Codigo.HeaderText = "Codigo";
-            this.Codigo.Name = "Codigo";
-            this.Codigo.ReadOnly = true;
-            this.Codigo.Width = 120;
-            // 
-            // NombreProducto
-            // 
-            this.NombreProducto.HeaderText = "Nombre";
-            this.NombreProducto.Name = "NombreProducto";
-            this.NombreProducto.ReadOnly = true;
-            this.NombreProducto.Width = 170;
-            // 
-            // Categoria
-            // 
-            this.Categoria.HeaderText = "Categoria";
-            this.Categoria.Name = "Categoria";
-            this.Categoria.ReadOnly = true;
-            // 
-            // Stock
-            // 
-            this.Stock.HeaderText = "Stock";
-            this.Stock.Name = "Stock";
-            this.Stock.ReadOnly = true;
-            this.Stock.Visible = false;
-            // 
-            // PrecioCompra
-            // 
-            this.PrecioCompra.HeaderText = "Precio Compra";
-            this.PrecioCompra.Name = "PrecioCompra";
-            this.PrecioCompra.ReadOnly = true;
-            this.PrecioCompra.Visible = false;
-            // 
-            // PrecioVenta
-            // 
-            this.PrecioVenta.HeaderText = "Precio Venta";
-            this.PrecioVenta.Name = "PrecioVenta";
-            this.PrecioVenta.ReadOnly = true;
-            this.PrecioVenta.Visible = false;
             // 
             // label2
             // 
@@ -270,6 +270,7 @@
             this.Controls.Add(this.btnLimpiarBuscador);
             this.Controls.Add(this.txtBusqueda);
             this.Name = "mdProducto";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "mdProducto";
             this.Load += new System.EventHandler(this.mdProducto_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvData)).EndInit();

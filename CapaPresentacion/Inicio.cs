@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using CapaEntidad;
 using FontAwesome.Sharp;
 using CapaNegocio;
+using CapaPresentacion.Modales;
 
 namespace CapaPresentacion
 {
@@ -82,7 +83,7 @@ namespace CapaPresentacion
 
         private void subMenuRegistrarVenta_Click(object sender, EventArgs e)
         {
-            AbrirFormulario(MenuVenta, new frmVentas());
+            AbrirFormulario(MenuVenta, new frmVentas(usuarioActual));
         }
 
         private void SubMenudetalleDeVentaToolStripMenuItem_Click(object sender, EventArgs e)
@@ -110,14 +111,33 @@ namespace CapaPresentacion
             AbrirFormulario((IconMenuItem)sender, new frmProveedores());
         }
 
-        private void MenuReportes_Click(object sender, EventArgs e)
-        {
-            AbrirFormulario((IconMenuItem)sender, new frmReportes());
-        }
-
         private void submenunegocio_Click(object sender, EventArgs e)
         {
             AbrirFormulario(MenuMantenimiento, new FrmNegocio());
+        }
+
+        private void subMenuReporteCompras_Click(object sender, EventArgs e)
+        {
+            AbrirFormulario(MenuReportes, new frmReporteCompras());
+        }
+
+        private void subMenuReporteVentas_Click(object sender, EventArgs e)
+        {
+            AbrirFormulario(MenuReportes, new frmReporteVentas());
+        }
+
+        private void MenuAcercaDe_Click(object sender, EventArgs e)
+        {
+            mdAcercaDe md = new mdAcercaDe();
+            md.ShowDialog();
+        }
+
+        private void btnSalir_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("¿Desea salir?","Mensaje",MessageBoxButtons.YesNo,MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                this.Close();
+            }
         }
     }
 }
